@@ -6,13 +6,35 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('Logging in with:', email, password);
-        // TODO: backend email and password
 
-        localStorage.setItem('userName', 'Rushil')
-        navigate('/student/dashboard')
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Login failed:', data)
+                alert(data.message || 'Login failed');
+                return;
+            }
+
+            localStorage.setItem('userName', data.user.name);
+
+            // Navigate based on user role
+            if (data.user.role === 'admin') navigate('/admin/dashboard');
+            else if (data.user.role === 'teacher') navigate('/teacher/dashboard');
+            else navigate('/student/dashboard');
+
+        } catch (error) {
+            console.error('Netword error:', error);
+            alert('Network error. Please try again.');
+        }
     };
 
     return (
@@ -39,7 +61,8 @@ function Login() {
                 <button type='submit' className='w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition'>Log In</button>
 
                 <div className='text-sm text-center mt-4'>
-                    <a href="/forgot-password" className='text-blue-600 hover:underline ml-2'>Forgot Password</a>
+                    <a href="/signup" className='text-blue-600 hover:underline ml-0'>Signup</a>
+                    <a href="/forgot-password" className='text-blue-600 hover:underline ml-5'>Forgot Password</a>
                 </div>
             </form>
         </div>
