@@ -68,7 +68,7 @@ function AdminDashboard() {
                 </div>
             )}
 
-            <h1 className='text-4xl font-bold text-centre mb-8 mt-2 ml-3'>Dashboard</h1>
+            <h1 className='text-4xl font-bold text-centre mb-8 mt-2 ml-3'>Admin Dashboard</h1>
             <h1 className='text-4xl text-center mb-3'>Welcome back, {name}!</h1>
             <p className='text-center text-gray-600 mb-12 text-xl'>What would you like to do today?</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4x1 mx-auto'>

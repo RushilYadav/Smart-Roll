@@ -12,7 +12,7 @@ function Login() {
         // TODO: backend email and password
 
         localStorage.setItem('userName', 'Rushil')
-        navigate('/admin/dashboard')
+        navigate('/teacher/dashboard')
     };
 
     return (
