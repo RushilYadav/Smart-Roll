@@ -1,13 +1,18 @@
 import React, { use, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
         console.log('Logging in with:', email, password);
         // TODO: backend email and password
+
+        localStorage.setItem('userName', 'Rushil')
+        navigate('/admin/dashboard')
     };
 
     return (
