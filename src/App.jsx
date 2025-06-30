@@ -6,6 +6,7 @@ import AdminDashboard from './pages/dashboards/AdminDashboard';
 import TeacherDashboard from './pages/dashboards/TeacherDashboard';
 import StudentDashboard from './pages/dashboards/StudentDashboard';
 import Signup from './pages/Signup';
+import ManageUsers from './pages/adminpages/ManageUsers';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path='/teacher/dashboard' element={<TeacherDashboard />}/>
       <Route path='/student/dashboard' element={<StudentDashboard />}/>
       <Route path='/signup' element={<Signup />}/>
+      <Route path='/admin/manage-users' element={<ManageUsers />}/>
     </Routes>
   );
 }

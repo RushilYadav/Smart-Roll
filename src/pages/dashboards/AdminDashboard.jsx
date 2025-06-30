@@ -11,7 +11,7 @@ function AdminDashboard() {
             title: 'Manage Users',
             description: 'View, add, edit or delete students and teachers.',
             icon: '👤',
-            link: '/admin/users'
+            link: '/admin/manage-users'
         },
         {
             title: 'Manage Classes',

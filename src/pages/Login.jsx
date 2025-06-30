@@ -26,9 +26,10 @@ function Login() {
 
             localStorage.setItem('userName', data.user.name);
 
+            
             // Navigate based on user role
-            if (data.user.role === 'admin') navigate('/admin/dashboard');
-            else if (data.user.role === 'teacher') navigate('/teacher/dashboard');
+            if (data.user.role === 'Admin') navigate('/admin/dashboard');
+            else if (data.user.role === 'Teacher') navigate('/teacher/dashboard');
             else navigate('/student/dashboard');
 
         } catch (error) {
