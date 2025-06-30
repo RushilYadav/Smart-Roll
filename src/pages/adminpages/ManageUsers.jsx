@@ -55,4 +55,4 @@ function ManageUsers() {
 
 }
 
-export default ManageUsers
+export default ManageUsers;
