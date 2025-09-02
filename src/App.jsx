@@ -7,6 +7,8 @@ import TeacherDashboard from './pages/dashboards/TeacherDashboard';
 import StudentDashboard from './pages/dashboards/StudentDashboard';
 import Signup from './pages/Signup';
 import ManageUsers from './pages/adminpages/ManageUsers';
+import TeacherProfile from './pages/teacherpages/MyProfile';
+import StudentProfile from './pages/studentpages/MyProfile';
 
 function App() {
   const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -28,6 +30,8 @@ function App() {
       <Route path='/student/dashboard' element={<ProtectedRoute allowedRoles={['Student']}><StudentDashboard /></ProtectedRoute>} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/admin/manage-users' element={<ProtectedRoute allowedRoles={['Admin']}><ManageUsers /></ProtectedRoute>} />
+      <Route path='/teacher/profile' element={<ProtectedRoute allowedRoles={['Teacher']}><TeacherProfile /></ProtectedRoute>} />
+      <Route path='/student/profile' element={<ProtectedRoute allowedRoles={['Student']}><StudentProfile /></ProtectedRoute>} />
     </Routes>
   );
 }
