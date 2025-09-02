@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
@@ -6,6 +6,17 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (token) {
+      if (role === 'Admin') navigate('/admin/dashboard');
+      else if (role === 'Teacher') navigate('/teacher/dashboard');
+      else navigate('/student/dashboard');
+    }
+  }, [navigate]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -38,7 +49,10 @@ function Signup() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <form onSubmit={handleSignup} className="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <form
+        onSubmit={handleSignup}
+        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
 
         <label className="block mb-2">Email</label>
