@@ -27,6 +27,8 @@ function Login() {
       // Save token and role
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.user.role);
+      localStorage.setItem('userName', data.user.name);
+      
 
       // Navigate based on user role
       if (data.user.role === 'Admin') navigate('/admin/dashboard');
