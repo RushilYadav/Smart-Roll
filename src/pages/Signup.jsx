@@ -16,16 +16,16 @@ function Signup() {
     }
 
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch('http://localhost:5000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, confirmPassword }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || 'Signup failed');
+        alert(data.error || 'Signup failed');
         return;
       }
 
