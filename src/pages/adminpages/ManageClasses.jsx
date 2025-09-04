@@ -171,29 +171,18 @@ function ManageClasses() {
         <div className='p-6'>
             {/* Header and Back to Dashboard button */}
             <div className='flex justify-between items-center mb-6'>
-                <button onClick={() => navigate('/admin/dashboard')} className='px-4 py-2 border border-gray-300 rounded hover:bg-gray-100'>
-                    Back to Dashboard
-                </button>
+                <button onClick={() => navigate('/admin/dashboard')} className='px-4 py-2 border border-gray-300 rounded hover:bg-gray-100'>Back to Dashboard</button>
                 <h2 className='text-3xl font-bold text-center flex-1'>Manage Classes</h2>
                 <button onClick={() => {
                     setNewClass({ name: '', teacherId: '', studentIds: [] });
                     setShowAddModal(true);
                 }}
-                className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
-                >
-                Add Class
-                </button>
+                className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'>Add Class</button>
             </div>
 
             {/* Search input */}
             <div className='flex gap-4 mb-4 flex-wrap'>
-                <input
-                    type='text'
-                    placeholder='Search by class name or teacher'
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className='border p-2 rounded flex-1 min-w-[200px]'
-                />
+                <input type='text' placeholder='Search by class name or teacher' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className='border p-2 rounded flex-1 min-w-[200px]'/>
             </div>
 
             {/* Classes table */}
@@ -208,22 +197,13 @@ function ManageClasses() {
                     </thead>
                     <tbody>
                         {filteredClasses.map((cls) => (
-                            <tr
-                                key={cls.id}
-                                className='border-t cursor-pointer hover:bg-gray-50'
-                                onClick={() => handleRowClick(cls)}
-                            >
+                            <tr key={cls.id} className='border-t cursor-pointer hover:bg-gray-50' onClick={() => handleRowClick(cls)}>
                                 <td className='px-6 py-4'>{cls.name}</td>
                                 <td className='px-6 py-4'>{cls.teacherName}</td>
                                 <td className='px-6 py-4'>
-                                    <select
-                                        className='border p-1 rounded w-full'
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
+                                    <select className='border p-1 rounded w-full' onClick={(e) => e.stopPropagation()}>
                                         {cls.students.map((student) => (
-                                            <option key={student.id} value={student.id}>
-                                                {student.name}
-                                            </option>
+                                            <option key={student.id} value={student.id}>{student.name}</option>
                                         ))}
                                     </select>
                                 </td>
@@ -246,18 +226,12 @@ function ManageClasses() {
                             {/* Teacher Dropdown */}
 
                             <Select
-                                options={allUsers
-                                    .filter((u) => u.role === 'Teacher')
-                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                options={allUsers.filter((u) => u.role === 'Teacher').map((u) => ({ value: u.id, label: u.name }))}
                                 value={
-                                    selectedClass.teacherId
-                                        ? allUsers
-                                            .filter((u) => u.id === selectedClass.teacherId)
-                                            .map((u) => ({ value: u.id, label: u.name }))[0]
-                                        : null
+                                    selectedClass.teacherId ? allUsers.filter((u) => u.id === selectedClass.teacherId).map((u) => ({ value: u.id, label: u.name }))[0] : null
                                 }
-                                onChange={(option) => 
-                                    setSelectedClass({ ...selectedClass, teacherId: option.value})
+                                onChange={(option) =>
+                                    setSelectedClass({ ...selectedClass, teacherId: option.value })
                                 }
                                 placeholder='Select Teacher'
                             />
@@ -265,9 +239,7 @@ function ManageClasses() {
                             {/* Students Dropdown */}
                             <Select
                                 isMulti
-                                options={allUsers
-                                    .filter((u) => u.role === 'Student')
-                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                options={allUsers.filter((u) => u.role === 'Student').map((u) => ({ value: u.id, label: u.name }))}
                                 value={selectedClass.studentIds.map((id) => {
                                     const user = allUsers.find((u) => u.id === id);
                                     return user ? { value: user.id, label: user.name } : null;
@@ -282,43 +254,17 @@ function ManageClasses() {
 
                         {/* Buttons */}
                         <div className='flex justify-end gap-3 mt-4'>
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className='px-4 py-2 border rounded hover:bg-gray-100'
-                            >
-                                Cancel
-                            </button>
-
+                            <button onClick={() => setShowModal(false)} className='px-4 py-2 border rounded hover:bg-gray-100'>Cancel</button>
                             {!confirmDelete ? (
                                 <>
-                                    <button
-                                        onClick={handleSave}
-                                        className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
-                                    >
-                                        Save Changes
-                                    </button>
-                                    <button
-                                        onClick={() => setConfirmDelete(true)}
-                                        className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'
-                                    >
-                                        Delete Class
-                                    </button>
+                                    <button onClick={handleSave} className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'>Save Changes</button>
+                                    <button onClick={() => setConfirmDelete(true)} className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'>Delete Class</button>
                                 </>
                             ) : (
                                 <>
                                     <span className='text-red-600 font-medium'>Confirm delete?</span>
-                                    <button
-                                        onClick={handleDelete}
-                                        className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'
-                                    >
-                                        Yes
-                                    </button>
-                                    <button
-                                        onClick={() => setConfirmDelete(false)}
-                                        className='px-4 py-2 border rounded hover:bg-gray-100'
-                                    >
-                                        No
-                                    </button>
+                                    <button onClick={handleDelete} className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'>Yes</button>
+                                    <button onClick={() => setConfirmDelete(false)} className='px-4 py-2 border rounded hover:bg-gray-100'>No</button>
                                 </>
                             )}
                         </div>
@@ -336,33 +282,22 @@ function ManageClasses() {
                             {/* Class Name */}
                             <input type='text' name='name' placeholder='Class Name' value={newClass.name} onChange={handleNewClassChange} className='border p-2 rounded w-full' autoComplete='off'/>
 
-
                             {/* Teacher Dropdown */}
-
                             <Select
-                                options={allUsers
-                                    .filter((u) => u.role === 'Teacher')
-                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                options={allUsers.filter((u) => u.role === 'Teacher').map((u) => ({ value: u.id, label: u.name }))}
                                 value={
-                                    newClass.teacherId
-                                    ? allUsers
-                                        .filter((u) => u.id === newClass.teacherId)
-                                        .map((u) => ({ value: u.id, label: u.name }))[0]
-                                    : null
+                                    newClass.teacherId ? allUsers.filter((u) => u.id === newClass.teacherId).map((u) => ({ value: u.id, label: u.name }))[0] : null
                                 }
-                                onChange={(option) => 
+                                onChange={(option) =>
                                     setNewClass({ ...newClass, teacherId: option.value})
                                 }
                                 placeholder='Select Teacher'
                             />
 
-
                             {/* Students Dropdown */}
                             <Select
                                 isMulti
-                                options={allUsers
-                                    .filter((u) => u.role === 'Student')
-                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                options={allUsers.filter((u) => u.role === 'Student').map((u) => ({ value: u.id, label: u.name }))}
                                 value={newClass.studentIds.map((id) => {
                                     const user = allUsers.find((u) => u.id === id);
                                     return user ? { value: user.id, label: user.name } : null;
@@ -374,7 +309,6 @@ function ManageClasses() {
                                 placeholder='Select Students'
                             />
                         </div>
-
                         <div className='flex justify-end gap-3 mt-4'>
                             <button onClick={() => setShowAddModal(false)} className='px-4 py-2 border rounded hover:bg-gray-100'>Cancel</button>
                             <button onClick={handleCreateClass} className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'>Create Class</button>
@@ -385,5 +319,4 @@ function ManageClasses() {
         </div>
     );
 }
-
 export default ManageClasses;

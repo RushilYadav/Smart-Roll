@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function TeacherDashboard() {
     const navigate = useNavigate();
-    const name = localStorage.getItem('userName') || 'Teacher'; // updated default
+    const name = localStorage.getItem('userName') || 'Teacher';
     const [showConfirmLogout, setShowConfirmLogout] = useState(false);
 
     const sections = [
@@ -55,8 +55,7 @@ function TeacherDashboard() {
             <div className='absolute top-6 right-6'>
                 <button 
                     onClick={() => setShowConfirmLogout(true)} 
-                    className='text-red-600 font-medium hover:underline text-xl mr-3 mt-2'
-                >
+                    className='text-red-600 font-medium hover:underline text-xl mr-3 mt-2'>
                     Log Out
                 </button>
             </div>
@@ -69,25 +68,21 @@ function TeacherDashboard() {
                         <div className='flex justify-center gap-4'>
                             <button 
                                 onClick={handleLogout} 
-                                className='bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700'
-                            >
+                                className='bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700'>
                                 Yes
                             </button>
                             <button 
                                 onClick={() => setShowConfirmLogout(false)} 
-                                className='bg-gray-300 px-4 py-2 rounded hover:bg-gray-400'
-                            >
+                                className='bg-gray-300 px-4 py-2 rounded hover:bg-gray-400'>
                                 No
                             </button>
                         </div>
                     </div>
                 </div>
             )}
-
             <h1 className='text-4xl font-bold text-left mb-8 mt-2 ml-3'>Teacher Dashboard</h1>
             <h1 className='text-4xl text-center mb-3'>Welcome back {name}!</h1>
             <p className='text-center text-gray-600 mb-12 text-xl'>What would you like to do today?</p>
-
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl mx-auto'>
                 {sections.map((section, index) => (
                     <div

@@ -49,21 +49,13 @@ function TeacherProfile() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 py-12 flex justify-center">
       <div className="w-full max-w-4xl relative">
-
-        {/* Back to Dashboard button */}
         <button
           onClick={() => navigate("/teacher/dashboard")}
-          className="mb-6 px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 font-semibold"
-        >
+          className="mb-6 px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 font-semibold">
           Back to Dashboard
         </button>
-
-        {/* Header */}
         <h1 className="text-3xl font-bold mb-8 text-center">Teacher Profile</h1>
-
-        {/* Two-column layout */}
         <div className="bg-white shadow-md rounded-lg p-8 flex flex-col md:flex-row gap-8">
-          {/* Left column: Profile picture */}
           <div className="flex-shrink-0 flex justify-center md:justify-start">
             {teacher.profile_pic_url ? (
               <img
@@ -77,8 +69,6 @@ function TeacherProfile() {
               </div>
             )}
           </div>
-
-          {/* Right column: Info */}
           <div className="flex-1 flex flex-col gap-3">
             <p className="text-2xl font-bold">{teacher.name}</p>
             <p><span className="font-semibold">Email:</span> {teacher.email}</p>
@@ -86,8 +76,6 @@ function TeacherProfile() {
             {teacher.dob && (
               <p><span className="font-semibold">Date of Birth:</span> {new Date(teacher.dob).toLocaleDateString()}</p>
             )}
-
-            {/* Placeholder sections for future data */}
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-gray-50 p-4 rounded-lg shadow">
                 <h3 className="font-semibold mb-2">Classes</h3>

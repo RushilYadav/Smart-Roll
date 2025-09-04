@@ -140,8 +140,7 @@ function ManageUsers() {
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={() => navigate('/admin/dashboard')}
-          className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
-        >
+          className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">
           Back to Dashboard
         </button>
         <h2 className="text-3xl font-bold text-center flex-1">Manage Users</h2>
@@ -150,26 +149,15 @@ function ManageUsers() {
             setNewUser({ name: '', email: '', role: 'Student', dob: '', profile_pic_url: '', password: '' });
             setShowAddModal(true);
           }}
-          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-        >
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
           Add User
-        </button>
+          </button>
       </div>
 
       {/* Filters */}
       <div className="flex gap-4 mb-4 flex-wrap">
-        <input
-          type="text"
-          placeholder="Search by name or email"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border p-2 rounded flex-1 min-w-[200px]"
-        />
-        <select
-          value={filterRole}
-          onChange={(e) => setFilterRole(e.target.value)}
-          className="border p-2 rounded"
-        >
+        <input type="text" placeholder="Search by name or email" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="border p-2 rounded flex-1 min-w-[200px]"/>
+        <select value={filterRole} onChange={(e) => setFilterRole(e.target.value)} className="border p-2 rounded">
           <option value="">All Roles</option>
           <option value="Admin">Admin</option>
           <option value="Teacher">Teacher</option>
@@ -191,11 +179,7 @@ function ManageUsers() {
           </thead>
           <tbody>
             {filteredUsers.map((user) => (
-              <tr
-                key={user.id}
-                className="border-t cursor-pointer hover:bg-gray-50"
-                onClick={() => handleRowClick(user)}
-              >
+              <tr key={user.id} className="border-t cursor-pointer hover:bg-gray-50" onClick={() => handleRowClick(user)}>
                 <td className="px-6 py-4">{user.name}</td>
                 <td className="px-6 py-4">{user.email}</td>
                 <td className="px-6 py-4">{user.role}</td>
@@ -277,5 +261,4 @@ function ManageUsers() {
     </div>
   );
 }
-
 export default ManageUsers;
