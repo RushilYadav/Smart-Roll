@@ -152,6 +152,51 @@ function ManageClasses() {
                 </button>
             </div>
 
+            {/* Search input */}
+            <div className='flex gap-4 mb-4 flex-wrap'>
+                <input
+                    type='text'
+                    placeholder='Search by class name or teacher'
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className='border p-2 rounded flex-1 min-w-[200px]'
+                />
+            </div>
+
+            {/* Classes table */}
+            <div className='overflow-x-auto'>
+                <table className='min-w-full bg-white shadow-md border rounded-lg overflow-hidden'>
+                    <thead className='bg-gray-200'>
+                        <tr>
+                            <th className='px-6 py-3 text-left'>Class Name</th>
+                            <th className='px-6 py-3 text-left'>Teacher</th>
+                            <th className='px-6 py-3 text-left'>Students</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredClasses.map((cls) => (
+                            <tr
+                                key={cls.id}
+                                className='border-t cursor-pointer hover:bg-gray-50'
+                                onClick={() => handleRowClick(cls)}
+                            >
+                                <td className='px-6 py-4'>{cls.name}</td>
+                                <td className='px-6 py-4'>{cls.teacherName}</td>
+                                <td className='px-6 py-4'>
+                                    <select className='border p-1 rounded w-full'>
+                                        {cls.students.map((student) => (
+                                            <option key={student.id} value={student.id}>
+                                                {student.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
 
 
 
