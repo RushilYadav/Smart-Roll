@@ -133,4 +133,36 @@ function ManageClasses() {
             alert('Failed to create class');
         }
     };
+
+    return (
+        <div className='p-6'>
+            {/* Header and Back to Dashboard button */}
+            <div className='flex justify-between items-center mb-6'>
+                <button onClick={() => navigate('/admin/dashboard')} className='px-4 py-2 border border-gray-300 rounded hover:bg-gray-100'>
+                    Back to Dashboard
+                </button>
+                <h2 className='text-3xl font-bold text-center flex-1'>Manage Classes</h2>
+                <button onClick={() => {
+                    setNewClass({ name: '', teacherId: '', studentIds: [] });
+                    setShowAddModal(true);
+                }}
+                className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
+                >
+                Add Class
+                </button>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    );
 }
