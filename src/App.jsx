@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import ManageUsers from './pages/adminpages/ManageUsers';
 import TeacherProfile from './pages/teacherpages/MyProfile';
 import StudentProfile from './pages/studentpages/MyProfile';
+import ManageClasses from './pages/adminpages/ManageClasses';
 
 function App() {
   const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -32,6 +33,7 @@ function App() {
       <Route path='/admin/manage-users' element={<ProtectedRoute allowedRoles={['Admin']}><ManageUsers /></ProtectedRoute>} />
       <Route path='/teacher/profile' element={<ProtectedRoute allowedRoles={['Teacher']}><TeacherProfile /></ProtectedRoute>} />
       <Route path='/student/profile' element={<ProtectedRoute allowedRoles={['Student']}><StudentProfile /></ProtectedRoute>} />
+      <Route path='/admin/classes' element={<ProtectedRoute allowedRoles={['Admin']}><ManageClasses /></ProtectedRoute>} />
     </Routes>
   );
 }

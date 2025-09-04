@@ -375,3 +375,5 @@ function ManageClasses() {
         </div>
     );
 }
+
+export default ManageClasses;
