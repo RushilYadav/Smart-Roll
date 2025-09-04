@@ -102,4 +102,35 @@ function ManageClasses() {
         }
     };
 
+    //update state for new class form inputs
+    const handleNewClassChange = (e) => {
+        setNewClass({ ...newClass, [e.target.name]: e.target.value });
+    };
+
+    //create new class
+    const handleCreateClass = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/classes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(newClass),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to create class');
+
+            //add new class to local state
+            setClasses((prev) => [...prev, data.class]);
+            setShowAddModal(false);
+
+            //reset new class form
+            setNewClass({ name: '', teacherId: '', studentIds: [] });
+            alert('Class created successfully');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to create class');
+        }
+    };
 }
