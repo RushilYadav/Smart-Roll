@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function ManageClasses() {
@@ -35,10 +35,56 @@ function ManageClasses() {
                 console.error('Failed to fetch classes:', error);
                 alert('Could not load classes');
             });
-        }, [token]);
+    }, [token]);
+
+    //filter classes based on search term
+    useEffect(() => {
+        let filtered = [...classes];
+        if (searchTerm) {
+            filtered = filtered.filter(
+                (u) =>
+                    u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    u.teacher && u.teacher.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+        setFilteredClasses(filtered); //update the filtered list
+    }, [searchTerm, classes]);
+
+    //handle click on class row to edit
+    const handleRowClick = (cls) => {
+        setSelectedClass({ ...cls});
+        setShowModal(true);
+    }
+
+    //save updated class details to backend
+    const handleSave = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/classes/${selectedClass.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(selectedClass),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to update class');
+
+            setClasses((prev) =>
+                prev.map((cls) => (cls.id === selectedClass.id ? data.class : cls))
+            );
+            setShowModal(false);
+            alert('Class updated successfully');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to update class');
+        }        
+    }
 
 
 
 
 
+
+    
 }
