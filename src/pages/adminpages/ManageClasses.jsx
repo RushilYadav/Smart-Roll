@@ -81,10 +81,25 @@ function ManageClasses() {
         }        
     }
 
+    //delete class from backend
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/classes/${selectedClass.id}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to delete class');
 
+            //remove class from local state
+            setClasses((prev) => prev.filter((cls) => cls.id !== selectedClass.id));
+            setShowModal(false);
+            setConfirmDelete(false);
+            alert('Class deleted successfully');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to delete class');
+        }
+    };
 
-
-
-
-    
 }
