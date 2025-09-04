@@ -1,5 +1,6 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 
 function ManageClasses() {
     const navigate = useNavigate(); //hook to navigate back to dashboard
@@ -15,8 +16,25 @@ function ManageClasses() {
         teacherId: '',
         studentIds: []
     });
+    const [allUsers, setAllUsers] = useState([]); //all users for dropdowns
 
     const token = localStorage.getItem('token'); //get token from local storage for authentication
+
+    //fetch all users for teacher/student dropdowns
+    useEffect(() => {
+        fetch('http://localhost:5000/users', {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => setAllUsers(data))
+            .catch((error) => {
+                console.error('Failed to fetch users:', error);
+                alert('Could not load users for dropdowns');
+            });
+    }, [token]);
 
     //fetch all classes from backend
     useEffect(() => {
@@ -54,6 +72,11 @@ function ManageClasses() {
     const handleRowClick = (cls) => {
         setSelectedClass({ ...cls});
         setShowModal(true);
+    }
+
+    //update state for edit class form inputs
+    const handleClassChange = (e) => {
+        setSelectedClass({ ...selectedClass, [e.target.name]: e.target.value });
     }
 
     //save updated class details to backend
@@ -183,7 +206,10 @@ function ManageClasses() {
                                 <td className='px-6 py-4'>{cls.name}</td>
                                 <td className='px-6 py-4'>{cls.teacherName}</td>
                                 <td className='px-6 py-4'>
-                                    <select className='border p-1 rounded w-full'>
+                                    <select
+                                        className='border p-1 rounded w-full'
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
                                         {cls.students.map((student) => (
                                             <option key={student.id} value={student.id}>
                                                 {student.name}
@@ -197,17 +223,155 @@ function ManageClasses() {
                 </table>
             </div>
 
+            {/* Edit/Delete Class Modal */}
+            {showModal && selectedClass && (
+                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50'>
+                    <div className='bg-white rounded-xl p-6 shadow-lg w-full max-w-md'>
+                        <h2 className='text-2xl font-semibold mb-4'>Edit Class</h2>
+                        <div className='flex flex-col gap-3'>
+
+                            {/* Class Name */}
+                            <input type='text' name='name' placeholder='Class Name' value={selectedClass.name} onChange={(e) => setSelectedClass({ ...selectedClass, name: e.target.value })} className='border p-2 rounded w-full' />
+
+                            {/* Teacher Dropdown */}
+
+                            <Select
+                                options={allUsers
+                                    .filter((u) => u.role === 'Teacher')
+                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                value={
+                                    selectedClass.teacherId
+                                        ? allUsers
+                                            .filter((u) => u.id === selectedClass.teacherId)
+                                            .map((u) => ({ value: u.id, label: u.name }))[0]
+                                        : null
+                                }
+                                onChange={(option) => 
+                                    setSelectedClass({ ...selectedClass, teacherId: option.value})
+                                }
+                                placeholder='Select Teacher'
+                            />
+
+                            {/* Students Dropdown */}
+                            <Select
+                                isMulti
+                                options={allUsers
+                                    .filter((u) => u.role === 'Student')
+                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                value={selectedClass.studentIds.map((id) => {
+                                    const user = allUsers.find((u) => u.id === id);
+                                    return user ? { value: user.id, label: user.name } : null;
+                                }).filter(Boolean)}
+                                onChange={(options) =>
+                                    setSelectedClass({ ...selectedClass, studentIds: options.map((o) => o.value),     
+                                    })
+                                }
+                                placeholder='Select Students'
+                            />
+                        </div>
+
+                        {/* Buttons */}
+                        <div className='flex justify-end gap-3 mt-4'>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className='px-4 py-2 border rounded hover:bg-gray-100'
+                            >
+                                Cancel
+                            </button>
+
+                            {!confirmDelete ? (
+                                <>
+                                    <button
+                                        onClick={handleSave}
+                                        className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
+                                    >
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        onClick={() => setConfirmDelete(true)}
+                                        className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'
+                                    >
+                                        Delete Class
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <span className='text-red-600 font-medium'>Confirm delete?</span>
+                                    <button
+                                        onClick={handleDelete}
+                                        className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700'
+                                    >
+                                        Yes
+                                    </button>
+                                    <button
+                                        onClick={() => setConfirmDelete(false)}
+                                        className='px-4 py-2 border rounded hover:bg-gray-100'
+                                    >
+                                        No
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Class Modal */}
+            {showAddModal && (
+                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50'>
+                    <div className='bg-white rounded-xl p-6 shadow-lg w-full max-w-md'>
+                        <h2 className='text-2xl font-semibold mb-4'>Add New Class</h2>
+                        <div className='flex flex-col gap-3'>
+
+                            {/* Class Name */}
+                            <input type='text' name='name' placeholder='Class Name' value={newClass.name} onChange={handleNewClassChange} className='border p-2 rounded w-full' autoComplete='off'/>
 
 
+                            {/* Teacher Dropdown */}
+
+                            <Select
+                                options={allUsers
+                                    .filter((u) => u.role === 'Teacher')
+                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                value={
+                                    newClass.teacherId
+                                    ? allUsers
+                                        .filter((u) => u.id === newClass.teacherId)
+                                        .map((u) => ({ value: u.id, label: u.name }))[0]
+                                    : null
+                                }
+                                onChange={(option) => 
+                                    setNewClass({ ...newClass, teacherId: option.value})
+                                }
+                                placeholder='Select Teacher'
+                            />
 
 
+                            {/* Students Dropdown */}
+                            <Select
+                                isMulti
+                                options={allUsers
+                                    .filter((u) => u.role === 'Student')
+                                    .map((u) => ({ value: u.id, label: u.name }))}
+                                value={newClass.studentIds.map((id) => {
+                                    const user = allUsers.find((u) => u.id === id);
+                                    return user ? { value: user.id, label: user.name } : null;
+                                }).filter(Boolean)}
+                                onChange={(options) =>
+                                    setNewClass({ ...newClass, studentIds: options.map((o) => o.value),
+                                    })
+                                }
+                                placeholder='Select Students'
+                            />
+                        </div>
 
-
-
-
-
-
-
+                        <div className='flex justify-end gap-3 mt-4'>
+                            <button onClick={() => setShowAddModal(false)} className='px-4 py-2 border rounded hover:bg-gray-100'>Cancel</button>
+                            <button onClick={handleCreateClass} className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'>Create Class</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
