@@ -1,4 +1,3 @@
-// backend/middleware/auth.js
 import jwt from 'jsonwebtoken';
 
 // Checks if the request has a valid token

@@ -22,7 +22,7 @@ function ManageClasses() {
 
     //fetch all users for teacher/student dropdowns
     useEffect(() => {
-        fetch('http://localhost:5000/users', {
+        fetch('http://localhost:5000/users/all', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
@@ -70,7 +70,17 @@ function ManageClasses() {
 
     //handle click on class row to edit
     const handleRowClick = (cls) => {
-        setSelectedClass({ ...cls});
+
+        const teacherId = cls.teacherId ? cls.teacherId : null;
+        const studentIds = cls.students ? cls.students.map((s) => s.id) : [];
+
+
+        setSelectedClass({
+            id: cls.id,
+            name: cls.name,
+            teacherId,
+            studentIds,
+        });
         setShowModal(true);
     }
 
