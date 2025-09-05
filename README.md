@@ -24,11 +24,11 @@ The facial recognition feature will be added soon.
 ### 2. Set up Backend
 #### 2.1 Navigate to 'backend/'
 
-'cd backend'
+> 'cd backend'
 
 #### 2.2 Install dependencies
 
-'npm install'
+> 'npm install'
 
 #### 2.3 Create a '.env' file and edit values:
 
@@ -48,21 +48,21 @@ JWT_SECRET=your_jwt_password
 
 #### 2.5 Start Backend
 
-'node server.js'
+> 'node server.js'
 
 ### 3. Set up Frontend
 
 #### 3.1 Navigate to 'frontend/'
 
-'cd frontend'
+> 'cd frontend'
 
 #### 3.2 Install dependencies
 
-'npm install'
+> 'npm install'
 
 #### 3.3 Start frontend
 
-'npm run dev'
+> 'npm run dev'
 
 ## Notes
 - Facial recognition feature is currently being created
