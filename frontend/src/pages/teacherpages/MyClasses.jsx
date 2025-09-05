@@ -81,7 +81,7 @@ function MyClasses() {
         <div className='p-6'>
             <div className='flex justify-between items-center mb-6'>
                 <button
-                    onClick={() => Navigate("/teacher/dashboard")}
+                    onClick={() => navigate("/teacher/dashboard")}
                     className='px-4 py-2 border border-gray-300 rounded hover:bg-gray-100'>
                     Back to Dashboard
                 </button>
@@ -115,7 +115,7 @@ function MyClasses() {
                         {filteredClasses.map((cls) => (
                             <tr
                                 key={cls.id}
-                                className='border-t cursor-pointer hover: bg-gray-50'
+                                className='border-t cursor-pointer hover:bg-gray-50'
                                 onClick={() => fetchStudents(cls.id)}
                             >
                                 <td className='px-6 py-4'>{cls.name}</td>
