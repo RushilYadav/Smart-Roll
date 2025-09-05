@@ -32,12 +32,14 @@ The facial recognition feature will be added soon.
 
 #### 2.3 Create a '.env' file and edit values:
 
+```
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=your_db_username
 DB_PASSWORD=your_db_password
 DB_NAME=name_of_db
 JWT_SECRET=your_jwt_password
+```
 
 #### 2.4 Set up Database
 
