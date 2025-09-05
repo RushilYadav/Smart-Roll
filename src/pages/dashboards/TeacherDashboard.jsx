@@ -17,7 +17,7 @@ function TeacherDashboard() {
             title: 'My Students',
             description: 'View your students, their attendance, and add grades.',
             icon: '👥',
-            link: '/teacher/students'
+            link: '/teacher/classes'
         },
         {
             title: 'Attendance Tools',

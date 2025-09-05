@@ -1,13 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import db from '../db.js'; // correct path
-import { verifyToken } from '../middleware/authMiddleware.js'; // correct path
+import db from '../db.js';
+import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// SIGNUP
-router.post('/signup', async (req, res) => {
+//signup
+router.post('/signup', async (req, response) => {
   const { name, email, password, role, dob, profile_pic_url } = req.body;
 
   try {
@@ -18,25 +18,25 @@ router.post('/signup', async (req, res) => {
       [name, email, hashedPassword, role, dob, profile_pic_url]
     );
 
-    res.status(201).json({ message: 'User created successfully' });
+    response.status(201).json({ message: 'User created successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Signup failed' });
+    response.status(500).json({ error: 'Signup failed' });
   }
 });
 
-// LOGIN
-router.post('/login', async (req, res) => {
+//login
+router.post('/login', async (req, response) => {
   const { email, password } = req.body;
 
   try {
     const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     const user = result.rows[0];
 
-    if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+    if (!user) return response.status(400).json({ error: 'Invalid credentials' });
 
     const validPassword = await bcrypt.compare(password, user.password_hash);
-    if (!validPassword) return res.status(400).json({ error: 'Invalid credentials' });
+    if (!validPassword) return response.status(400).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign(
       { id: user.id, role: user.role },
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({
+    response.json({
       token,
       user: {
         name: user.name,
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     console.error('Login route error:', err);
-    res.status(500).json({ error: 'Login failed' });
+    response.status(500).json({ error: 'Login failed' });
   }
 });
 
