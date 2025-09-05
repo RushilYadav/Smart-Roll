@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use('/teachers', TeacherRoutes);
+app.use('/teacher', TeacherRoutes);
 app.use('/students', StudentRoutes);
 app.use('/classes', classRoutes);
 
