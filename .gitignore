@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 *.env
 
-tailwindcss.com/
-
 node_modules/
