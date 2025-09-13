@@ -1,12 +1,12 @@
 import express from 'express'; 
 import db from '../db.js';
 import bcrypt from 'bcrypt';
-import { verifyToken, verifyRole } from '../middleware/authMiddleware.js';
+import { verifyToken, verifyRoles } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 //get all users
-router.get('/all', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.get('/all', verifyToken, verifyRoles(['Admin']), async (req, response) => {
   try {
     const result = await db.query(
       'SELECT id, name, email, role, dob, profile_pic_url FROM users ORDER BY id ASC'
@@ -19,7 +19,7 @@ router.get('/all', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //create new user
-router.post('/', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.post('/', verifyToken, verifyRoles(['Admin']), async (req, response) => {
   const { name, email, role, dob, profile_pic_url, password } = req.body;
 
   if (!name || !email || !role || !password) {
@@ -45,7 +45,7 @@ router.post('/', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //update a user by ID
-router.put('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.put('/:id', verifyToken, verifyRoles(['Admin']), async (req, response) => {
   const { id } = req.params;
   const { name, email, role, dob, profile_pic_url } = req.body;
 
@@ -68,7 +68,7 @@ router.put('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //delete a user by ID
-router.delete('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.delete('/:id', verifyToken, verifyRoles(['Admin']), async (req, response) => {
   const { id } = req.params;
 
   try {

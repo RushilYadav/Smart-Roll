@@ -1,11 +1,11 @@
 import express from "express";
 import db from "../db.js";
-import { verifyToken, verifyRole } from "../middleware/authMiddleware.js";
+import { verifyToken, verifyRoles } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 //get student profile
-router.get("/me", verifyToken, verifyRole("Student"), async (req, response) => {
+router.get("/me", verifyToken, verifyRoles(["Student"]), async (req, response) => {
   try {
     const result = await db.query("SELECT id, name, email, role, dob, profile_pic_url FROM users WHERE id = $1", [req.user.id]);
     const student = result.rows[0];

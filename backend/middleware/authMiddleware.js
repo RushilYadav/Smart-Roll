@@ -18,7 +18,7 @@ export const verifyToken = (req, response, next) => {
 };
 
 //check if user has required role
-export const verifyRole = (role) => (req, response, next) => {
-  if (req.user.role !== role) return response.status(403).json({ error: 'Access denied' });
+export const verifyRoles = (roles) => (req, response, next) => {
+  if (!roles.includes(req.user.role)) return response.status(403).json({ error: 'Access denied' });
   next();
 };

@@ -1,11 +1,11 @@
 import express from 'express';
 import db from '../db.js';
-import { verifyToken, verifyRole } from '../middleware/authMiddleware.js';
+import { verifyToken, verifyRoles } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 //retrieve all classes with their teachers and students
-router.get('/', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.get('/', verifyToken, verifyRoles(['Admin']), async (req, response) => {
     try {
         //get all classes with their teachers
         const classResult = await db.query(`
@@ -21,7 +21,7 @@ router.get('/', verifyToken, verifyRole('Admin'), async (req, response) => {
 
             //get students for each class
             const studentResult = await db.query(`
-                SELECT u.id, u.name, u.profile_picture_url
+                SELECT u.id, u.name, u.profile_pic_url
                 FROM class_students cs
                 JOIN users u ON cs.student_id = u.id
                 WHERE cs.class_id = $1`,
@@ -45,7 +45,7 @@ router.get('/', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //create a new class
-router.post('/', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.post('/', verifyToken, verifyRoles(['Admin']), async (req, response) => {
     const { name, teacherId, studentIds } = req.body;
 
     if (!name || !teacherId) return response.status(400).json({ error: 'Class name and teacher are required' });
@@ -85,7 +85,7 @@ router.post('/', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //update a class
-router.put('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.put('/:id', verifyToken, verifyRoles(['Admin']), async (req, response) => {
     const classId = req.params.id;
     const { name, teacherId, studentIds } = req.body;
 
@@ -127,7 +127,7 @@ router.put('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
 });
 
 //delete a class
-router.delete('/:id', verifyToken, verifyRole('Admin'), async (req, response) => {
+router.delete('/:id', verifyToken, verifyRoles(['Admin']), async (req, response) => {
 const classId = req.params.id;
 
 try {
