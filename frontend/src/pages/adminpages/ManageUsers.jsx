@@ -142,6 +142,13 @@ function ManageUsers() {
     const formData = new FormData();
     formData.append('image', file);
 
+    if (showAddModal) {
+      console.log("Uploading for:", newUser.name);
+      formData.append('name', newUser.name);
+    } else if (showModal) {
+      formData.append('name', selectedUser.name);
+    }
+
     try {
       const res = await fetch('http://localhost:5000/upload', {
         method: 'POST',
