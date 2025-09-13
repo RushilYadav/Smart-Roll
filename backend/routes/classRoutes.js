@@ -21,7 +21,7 @@ router.get('/', verifyToken, verifyRole('Admin'), async (req, response) => {
 
             //get students for each class
             const studentResult = await db.query(`
-                SELECT u.id, u.name
+                SELECT u.id, u.name, u.profile_picture_url
                 FROM class_students cs
                 JOIN users u ON cs.student_id = u.id
                 WHERE cs.class_id = $1`,

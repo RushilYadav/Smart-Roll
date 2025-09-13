@@ -16,7 +16,7 @@ export const getClasses = async (req, response) => {
         //for each class, get its students
         for (const cls of classesResult.rows) {
             const studentsResult = await db.query(`
-            SELECT u.id, u.name
+            SELECT u.id, u.name, u.profile_picture_url
             FROM class_students cs
             JOIN users u ON cs.student_id = u.id
             WHERE cs.class_id = $1`,

@@ -134,6 +134,34 @@ function ManageUsers() {
     }
   };
 
+  //file upload handler
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to upload image');
+      
+      if (showAddModal) {
+        setNewUser({ ...newUser, profile_pic_url: data.url });
+      } else if (showModal) {
+        setSelectedUser({ ...selectedUser, profile_pic_url: data.url });
+      }
+      alert('Image uploaded successfully');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to upload image');
+    }
+  };
+
   return (
     <div className="p-6">
       {/* Top bar with title and buttons */}
@@ -197,7 +225,7 @@ function ManageUsers() {
         </table>
       </div>
 
-      {/* Edit / Delete Modal */}
+      {/* Edit/Delete Modal */}
       {showModal && selectedUser && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white rounded-xl p-6 shadow-lg w-full max-w-md">
@@ -211,7 +239,11 @@ function ManageUsers() {
                 <option value="Student">Student</option>
               </select>
               <input type="date" name="dob" value={selectedUser.dob ? selectedUser.dob.split('T')[0] : ''} onChange={handleChange} className="border p-2 rounded w-full" />
-              <input type="text" name="profile_pic_url" placeholder="Profile Picture URL" value={selectedUser.profile_pic_url || ''} onChange={handleChange} className="border p-2 rounded w-full" />
+              
+              <input type="file" accept="image/*" onChange={handleFileUpload} className="border p-2 rounded w-full" />
+              {selectedUser.profile_pic_url && (
+                <img src={selectedUser.profile_pic_url} alt="Profile" className="w-16 h-16 rounded-full mt-2" />
+              )}
             </div>
 
             <div className="flex justify-end gap-3 mt-4">
@@ -248,7 +280,10 @@ function ManageUsers() {
                 <option value="Student">Student</option>
               </select>
               <input type="date" name="dob" value={newUser.dob} onChange={handleNewChange} className="border p-2 rounded w-full" />
-              <input type="text" name="profile_pic_url" placeholder="Profile Picture URL" value={newUser.profile_pic_url} onChange={handleNewChange} className="border p-2 rounded w-full" />
+              <input type="file" accept="image/*" onChange={handleFileUpload} className="border p-2 rounded w-full" />
+              {newUser.profile_pic_url && (
+                <img src={newUser.profile_pic_url} alt="Profile" className="w-16 h-16 rounded-full mt-2" />
+              )}
             </div>
 
             <div className="flex justify-end gap-3 mt-4">
