@@ -8,6 +8,7 @@ import classRoutes from './routes/classRoutes.js';
 import cors from 'cors';
 import path from 'path';
 import uploadRoutes from './routes/upload.js';
+import recognitionRoutes from './routes/recognition.js';
 
 dotenv.config();
 
@@ -23,5 +24,6 @@ app.use('/teacher', TeacherRoutes);
 app.use('/students', StudentRoutes);
 app.use('/classes', classRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/recognition', recognitionRoutes);
 
 app.listen(5000, () => console.log('Server running on port 5000'));

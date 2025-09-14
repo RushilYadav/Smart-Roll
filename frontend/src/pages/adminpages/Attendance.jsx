@@ -170,7 +170,22 @@ function Attendance() {
                 )}
 
                 {/* Facial Recognition button */}
-                <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    onClick={async () => {
+                        try {
+                            const response = await axios.post(
+                                "http://localhost:5000/recognition/start-recognition",
+                                { classId: selectedClass.id },
+                                { headers: { Authorization: `Bearer ${token}` } }
+                            );
+                            alert(response.data.message);
+                        } catch (err) {
+                            console.error("Error starting facial recognition:", err);
+                            alert("Failed to start facial recognition");
+                        }
+                    }}
+                >
                     Start Facial Recognition
                 </button>
             </div>
